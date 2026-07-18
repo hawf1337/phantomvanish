@@ -7,7 +7,7 @@ description: 'Vanish plugin with double-shift spectator mode, silent join/quit a
 commands:
   vanish:
     description: 'Toggle vanish mode on or off.'
-    usage: '/<command> [help|item|list]'
+    usage: '/<command> [help|item|list|<player>]'
     aliases: [v]
 
 permissions:
@@ -19,6 +19,12 @@ permissions:
     default: op
   phantomvanish.vanish.item:
     description: 'Allows toggling item pickup blocking (/v item) on/off.'
+    default: op
+  phantomvanish.vanish.other:
+    description: 'Allows vanishing other players using /v <player>.'
+    default: op
+  phantomvanish.spectator:
+    description: 'Allows using double-shift to toggle spectator mode while vanished.'
     default: op
   phantomvanish.broadcast:
     description: 'Allows receiving vanish broadcast notifications.'

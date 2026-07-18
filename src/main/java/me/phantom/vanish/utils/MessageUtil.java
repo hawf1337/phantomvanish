@@ -84,4 +84,38 @@ public final class MessageUtil {
             }
         }
     }
+
+    /**
+     * Broadcasts a stylized message when an admin changes another player's vanish state.
+     */
+    public static void broadcastVanishActionMessage(String adminName, String targetName, boolean vanished) {
+        Component separator = Component.text("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━").color(NamedTextColor.DARK_GRAY);
+        Component message;
+
+        if (vanished) {
+            message = Component.text()
+                    .append(Component.text("⚡ ").color(NamedTextColor.GOLD))
+                    .append(Component.text(adminName).color(NamedTextColor.YELLOW).decorate(TextDecoration.BOLD))
+                    .append(Component.text(" átette ").color(NamedTextColor.GOLD))
+                    .append(Component.text(targetName).color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD))
+                    .append(Component.text(" láthatatlanba").color(NamedTextColor.GOLD))
+                    .build();
+        } else {
+            message = Component.text()
+                    .append(Component.text("⚡ ").color(NamedTextColor.GOLD))
+                    .append(Component.text(adminName).color(NamedTextColor.YELLOW).decorate(TextDecoration.BOLD))
+                    .append(Component.text(" visszahozta ").color(NamedTextColor.GOLD))
+                    .append(Component.text(targetName).color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD))
+                    .append(Component.text(" a látható világba").color(NamedTextColor.GOLD))
+                    .build();
+        }
+
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (player.hasPermission("phantomvanish.broadcast")) {
+                player.sendMessage(separator);
+                player.sendMessage(message);
+                player.sendMessage(separator);
+            }
+        }
+    }
 }

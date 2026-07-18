@@ -1,7 +1,6 @@
 package me.phantom.vanish.managers;
 
 import me.phantom.vanish.PhantomVanish;
-import me.phantom.vanish.utils.MessageUtil;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
@@ -13,7 +12,7 @@ import java.util.UUID;
 
 /**
  * Manages the double-shift-triggered spectator mode that is only available
- * while a player is vanished.
+ * while a player is vanished AND has the spectator permission.
  * <p>
  * Detection works by recording the timestamp of the first SHIFT press and
  * comparing it against the second press. If both presses happen within the
@@ -53,10 +52,14 @@ public class SpectatorManager {
      * Handles a sneak (SHIFT) key press for the given player and triggers
      * the spectator toggle if a double press is detected within the
      * configured threshold. Does nothing if the spectator feature is
-     * disabled in config or if the player is not currently vanished.
+     * disabled in config, if the player lacks the permission, or if the
+     * player is not currently vanished.
      */
     public void handleSneak(Player player) {
         if (!plugin.getConfigManager().isSpectatorEnabled()) {
+            return;
+        }
+        if (!player.hasPermission("phantomvanish.spectator")) {
             return;
         }
         if (!plugin.getVanishManager().isVanished(player)) {
@@ -98,8 +101,8 @@ public class SpectatorManager {
         inVanishSpectator.add(uuid);
         player.setGameMode(GameMode.SPECTATOR);
 
-        MessageUtil.sendActionBar(player, plugin.getConfigManager().getMessageSpectatorEnabled());
-        MessageUtil.playSound(player, plugin.getConfigManager().getSoundSpectatorEnter(),
+        me.phantom.vanish.utils.MessageUtil.sendActionBar(player, plugin.getConfigManager().getMessageSpectatorEnabled());
+        me.phantom.vanish.utils.MessageUtil.playSound(player, plugin.getConfigManager().getSoundSpectatorEnter(),
                 plugin.getConfigManager().getSoundVolume(), plugin.getConfigManager().getSoundPitch());
     }
 
@@ -144,8 +147,8 @@ public class SpectatorManager {
         }
 
         if (notifyPlayer) {
-            MessageUtil.sendActionBar(player, plugin.getConfigManager().getMessageSpectatorDisabled());
-            MessageUtil.playSound(player, plugin.getConfigManager().getSoundSpectatorExit(),
+            me.phantom.vanish.utils.MessageUtil.sendActionBar(player, plugin.getConfigManager().getMessageSpectatorDisabled());
+            me.phantom.vanish.utils.MessageUtil.playSound(player, plugin.getConfigManager().getSoundSpectatorExit(),
                     plugin.getConfigManager().getSoundVolume(), plugin.getConfigManager().getSoundPitch());
         }
     }

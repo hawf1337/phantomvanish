@@ -2,6 +2,7 @@ package me.phantom.vanish.commands;
 
 import me.phantom.vanish.PhantomVanish;
 import me.phantom.vanish.utils.MessageUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,6 +20,7 @@ import java.util.Locale;
  *     <li>{@code /v help} - show the help menu</li>
  *     <li>{@code /v item} - toggle item pickup blocking while vanished</li>
  *     <li>{@code /v list} - list players currently in vanish</li>
+ *     <li>{@code /v <player>} - vanish another player (requires permission)</li>
  * </ul>
  */
 public class VanishCommand implements CommandExecutor, TabCompleter {
@@ -53,7 +55,7 @@ public class VanishCommand implements CommandExecutor, TabCompleter {
             case "help", "?" -> sendHelp(player);
             case "item" -> handleItemSubcommand(player);
             case "list" -> handleListSubcommand(player);
-            default -> sendHelp(player);
+            default -> handlePlayerSubcommand(player, args[0]);
         }
 
         return true;
@@ -86,6 +88,34 @@ public class VanishCommand implements CommandExecutor, TabCompleter {
         }
     }
 
+    private void handlePlayerSubcommand(Player player, String targetName) {
+        if (!player.hasPermission("phantomvanish.vanish.other")) {
+            MessageUtil.sendMessage(player, plugin.getConfigManager().getMessageNoPermission());
+            return;
+        }
+
+        Player target = Bukkit.getPlayer(targetName);
+        if (target == null) {
+            MessageUtil.sendMessage(player, "&c❌ Játékos nem található: " + targetName);
+            return;
+        }
+
+        if (target.equals(player)) {
+            MessageUtil.sendMessage(player, "&c❌ Nem tudsz magadat láthatatlanná tenni így. Használd a /v parancsot!");
+            return;
+        }
+
+        boolean wasVanished = plugin.getVanishManager().isVanished(target);
+        plugin.getVanishManager().toggleVanish(target);
+
+        // Broadcast the action
+        if (wasVanished) {
+            MessageUtil.broadcastVanishActionMessage(player.getName(), target.getName(), false);
+        } else {
+            MessageUtil.broadcastVanishActionMessage(player.getName(), target.getName(), true);
+        }
+    }
+
     private void sendHelp(Player player) {
         for (String line : plugin.getConfigManager().getHelpMessages()) {
             MessageUtil.sendMessage(player, line);
@@ -105,11 +135,23 @@ public class VanishCommand implements CommandExecutor, TabCompleter {
         if (args.length == 1) {
             List<String> matches = new ArrayList<>();
             String prefix = args[0].toLowerCase(Locale.ROOT);
+            
+            // Add subcommands
             for (String sub : SUBCOMMANDS) {
                 if (sub.startsWith(prefix)) {
                     matches.add(sub);
                 }
             }
+            
+            // Add online player names
+            if (sender instanceof Player player && player.hasPermission("phantomvanish.vanish.other")) {
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    if (p.getName().toLowerCase().startsWith(prefix)) {
+                        matches.add(p.getName());
+                    }
+                }
+            }
+            
             return matches;
         }
         return List.of();
