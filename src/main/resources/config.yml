@@ -1,0 +1,103 @@
+##########################################################
+#                                                          #
+#                   PhantomVanish Config                  #
+#                                                          #
+##########################################################
+
+# The time window (in milliseconds) within which two SHIFT (sneak) presses
+# count as a "double shift" to toggle spectator mode.
+double-shift-time: 400
+
+# How often (in ticks, 20 ticks = 1 second) the server re-sends the
+# "Vanish Enabled" action bar message, so it stays displayed and doesn't
+# fade away after a few seconds.
+vanish-actionbar-interval: 40
+
+spectator:
+  # Globally enables/disables the double-shift spectator feature.
+  # If disabled, double-shift does nothing while vanished either.
+  enabled: true
+  # If enabled: whenever a player leaves the double-shift spectator mode,
+  # they are automatically given flight again, even if they didn't have
+  # /fly enabled before entering spectator. This means you never fall out
+  # of the sky and never have to type /fly manually after coming back
+  # from spectator while vanished.
+  auto-fly-on-exit: true
+
+vanish:
+  # If enabled: while vanished, join and quit messages are not shown to
+  # anyone in chat (silent join/quit).
+  silent-join-quit: true
+  # If enabled: while vanished, the player takes no damage
+  # (mobs, fall damage, fire, etc).
+  block-damage: true
+  # If enabled: mobs will not target/aggro a vanished player.
+  block-mob-targeting: true
+
+# Where PhantomVanish stores the list of currently vanished players.
+# - YAML  : stored locally in vanished-players.yml (default, zero setup,
+#           per-server only).
+# - MYSQL : stored in a MySQL database, useful on networks with multiple
+#           servers behind BungeeCord/Velocity so vanish state stays in
+#           sync no matter which server a player reconnects to.
+storage:
+  type: "YAML"
+  mysql:
+    host: "localhost"
+    port: 3306
+    database: "phantomvanish"
+    username: "root"
+    password: "password"
+    # Table name used to store vanished player UUIDs. Created automatically
+    # on startup if it doesn't already exist.
+    table: "phantomvanish_vanished"
+    # Extra JDBC connection parameters, appended directly to the JDBC URL.
+    parameters: "?useSSL=false&autoReconnect=true&useUnicode=true&characterEncoding=utf-8"
+
+# Permission nodes used by the plugin.
+permissions:
+  vanish: "phantomvanish.vanish"
+  vanish-see: "phantomvanish.vanish.see"
+  vanish-item: "phantomvanish.vanish.item"
+
+# Displayed messages. Supports '&' color codes.
+messages:
+  vanish-enabled: "&a✔ Vanish enabled"
+  vanish-disabled: "&c✖ Vanish disabled"
+  # Shown in chat if you log back in and were last seen leaving in vanish.
+  vanish-reminder: "&e⚠ Reminder: you are currently in vanish mode! Use /v to turn it off."
+  spectator-enabled: "&e👁 Spectator mode enabled"
+  spectator-disabled: "&e👁 Restored to previous game mode"
+  no-permission: "&cYou don't have permission to use this command."
+  player-only: "&cThis command can only be used by a player."
+
+  # Messages for the /v item toggle.
+  item-pickup-block-enabled: "&a✔ Item pickup blocking enabled &7(you can't pick up items while vanished)"
+  item-pickup-block-disabled: "&c✖ Item pickup blocking disabled &7(you can pick up items while vanished)"
+
+  # /v list command output.
+  vanish-list-header: "&b&lPlayers currently in vanish:"
+  vanish-list-empty: "&7Nobody is currently vanished."
+  vanish-list-entry-prefix: "&8 » &f"
+
+  # The /v help (or /vanish help) command output, line by line.
+  help:
+    - "&8&m----------------------------------------"
+    - "&b&lPhantomVanish &7- Help"
+    - "&e/v &8» &7Toggle vanish on or off"
+    - "&e/v help &8» &7This help menu"
+    - "&e/v item &8» &7Toggle item pickup blocking while vanished"
+    - "&e/v list &8» &7List players currently in vanish"
+    - "&e2x Shift &8» &7While vanished: toggle spectator mode"
+    - "&8Made by: Morteus"
+    - "&8&m----------------------------------------"
+
+# Sound effects. Must be valid Bukkit Sound enum names.
+sounds:
+  vanish-enable: "ENTITY_EXPERIENCE_ORB_PICKUP"
+  vanish-disable: "ENTITY_ITEM_BREAK"
+  spectator-enter: "BLOCK_BEACON_ACTIVATE"
+  spectator-exit: "BLOCK_BEACON_DEACTIVATE"
+  item-pickup-toggle: "UI_BUTTON_CLICK"
+  volume: 1.0
+  pitch: 1.0

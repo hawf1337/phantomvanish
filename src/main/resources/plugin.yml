@@ -1,0 +1,23 @@
+name: PhantomVanish
+version: '1.1.0'
+main: me.phantom.vanish.PhantomVanish
+api-version: '1.20'
+author: 'Morteus'
+description: 'Vanish plugin with double-shift spectator mode, silent join/quit and item pickup blocking.'
+
+commands:
+  vanish:
+    description: 'Toggle vanish mode on or off.'
+    usage: '/<command> [help|item|list]'
+    aliases: [v]
+
+permissions:
+  phantomvanish.vanish:
+    description: 'Allows use of the vanish command (base permission - toggling on/off).'
+    default: op
+  phantomvanish.vanish.see:
+    description: 'Allows seeing players who are currently vanished, and using the vanish list.'
+    default: op
+  phantomvanish.vanish.item:
+    description: 'Allows toggling item pickup blocking (/v item) on/off.'
+    default: op
