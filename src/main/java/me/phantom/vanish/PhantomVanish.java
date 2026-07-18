@@ -9,6 +9,7 @@ import me.phantom.vanish.listeners.PlayerJoinListener;
 import me.phantom.vanish.listeners.PlayerQuitListener;
 import me.phantom.vanish.listeners.SneakListener;
 import me.phantom.vanish.listeners.VanishDamageListener;
+import me.phantom.vanish.listeners.PlayerInteractListener;
 import me.phantom.vanish.managers.ItemPickupManager;
 import me.phantom.vanish.managers.SpectatorManager;
 import me.phantom.vanish.managers.VanishManager;
@@ -26,13 +27,8 @@ import org.bukkit.plugin.java.JavaPlugin;
  * Responsible for bootstrapping configuration, storage, managers, commands
  * and listeners, and for cleaning up state on shutdown so no player is left
  * permanently invisible after a reload/restart.
- * <p>
- * PhantomVanish — made by Morteus
  */
 public final class PhantomVanish extends JavaPlugin {
-
-    /** Plugin author credit, also printed to console on enable. */
-    private static final String AUTHOR = "Morteus";
 
     private static PhantomVanish instance;
 
@@ -59,7 +55,7 @@ public final class PhantomVanish extends JavaPlugin {
         registerCommands();
         registerListeners();
 
-        getLogger().info("PhantomVanish v" + getDescription().getVersion() + " enabled. Made by " + AUTHOR);
+        getLogger().info("PhantomVanish v" + getDescription().getVersion() + " enabled.");
     }
 
     @Override
@@ -101,14 +97,11 @@ public final class PhantomVanish extends JavaPlugin {
         pluginManager.registerEvents(new ItemPickupListener(this), this);
         pluginManager.registerEvents(new MobTargetListener(this), this);
         pluginManager.registerEvents(new VanishDamageListener(this), this);
+        pluginManager.registerEvents(new PlayerInteractListener(this), this);
     }
 
     public static PhantomVanish getInstance() {
         return instance;
-    }
-
-    public static String getAuthor() {
-        return AUTHOR;
     }
 
     public ConfigManager getConfigManager() {
