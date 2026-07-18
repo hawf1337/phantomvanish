@@ -2,6 +2,7 @@ package me.phantom.vanish.utils;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -64,13 +65,13 @@ public final class MessageUtil {
         if (vanished) {
             message = Component.text()
                     .append(Component.text("👤 ").color(NamedTextColor.LIGHT_PURPLE))
-                    .append(Component.text(playerName).color(NamedTextColor.AQUA).bold(true))
+                    .append(Component.text(playerName).color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD))
                     .append(Component.text(" láthatatlanba lépett").color(NamedTextColor.LIGHT_PURPLE))
                     .build();
         } else {
             message = Component.text()
                     .append(Component.text("👤 ").color(NamedTextColor.LIGHT_PURPLE))
-                    .append(Component.text(playerName).color(NamedTextColor.AQUA).bold(true))
+                    .append(Component.text(playerName).color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD))
                     .append(Component.text(" visszatért a látható világba").color(NamedTextColor.LIGHT_PURPLE))
                     .build();
         }
