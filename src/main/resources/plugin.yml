@@ -2,7 +2,6 @@ name: PhantomVanish
 version: '1.1.0'
 main: me.phantom.vanish.PhantomVanish
 api-version: '1.20'
-author: 'Morteus'
 description: 'Vanish plugin with double-shift spectator mode, silent join/quit and item pickup blocking.'
 
 commands:
