@@ -96,12 +96,12 @@ public class VanishCommand implements CommandExecutor, TabCompleter {
 
         Player target = Bukkit.getPlayer(targetName);
         if (target == null) {
-            MessageUtil.sendMessage(player, "&c❌ Játékos nem található: " + targetName);
+            MessageUtil.sendMessage(player, "&c✗ Player not found: " + targetName);
             return;
         }
 
         if (target.equals(player)) {
-            MessageUtil.sendMessage(player, "&c❌ Nem tudsz magadat láthatatlanná tenni így. Használd a /v parancsot!");
+            MessageUtil.sendMessage(player, "&c✗ You cannot vanish yourself this way. Use /v instead!");
             return;
         }
 

@@ -66,13 +66,13 @@ public final class MessageUtil {
             message = Component.text()
                     .append(Component.text("👤 ").color(NamedTextColor.LIGHT_PURPLE))
                     .append(Component.text(playerName).color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD))
-                    .append(Component.text(" láthatatlanba lépett").color(NamedTextColor.LIGHT_PURPLE))
+                    .append(Component.text(" has entered vanish").color(NamedTextColor.LIGHT_PURPLE))
                     .build();
         } else {
             message = Component.text()
                     .append(Component.text("👤 ").color(NamedTextColor.LIGHT_PURPLE))
                     .append(Component.text(playerName).color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD))
-                    .append(Component.text(" visszatért a látható világba").color(NamedTextColor.LIGHT_PURPLE))
+                    .append(Component.text(" has left vanish").color(NamedTextColor.LIGHT_PURPLE))
                     .build();
         }
 
@@ -96,17 +96,17 @@ public final class MessageUtil {
             message = Component.text()
                     .append(Component.text("⚡ ").color(NamedTextColor.GOLD))
                     .append(Component.text(adminName).color(NamedTextColor.YELLOW).decorate(TextDecoration.BOLD))
-                    .append(Component.text(" átette ").color(NamedTextColor.GOLD))
+                    .append(Component.text(" set ").color(NamedTextColor.GOLD))
                     .append(Component.text(targetName).color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD))
-                    .append(Component.text(" láthatatlanba").color(NamedTextColor.GOLD))
+                    .append(Component.text(" to vanish").color(NamedTextColor.GOLD))
                     .build();
         } else {
             message = Component.text()
                     .append(Component.text("⚡ ").color(NamedTextColor.GOLD))
                     .append(Component.text(adminName).color(NamedTextColor.YELLOW).decorate(TextDecoration.BOLD))
-                    .append(Component.text(" visszahozta ").color(NamedTextColor.GOLD))
+                    .append(Component.text(" set ").color(NamedTextColor.GOLD))
                     .append(Component.text(targetName).color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD))
-                    .append(Component.text(" a látható világba").color(NamedTextColor.GOLD))
+                    .append(Component.text(" to visible").color(NamedTextColor.GOLD))
                     .build();
         }
 
