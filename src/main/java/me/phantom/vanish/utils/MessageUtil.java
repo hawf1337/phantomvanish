@@ -1,13 +1,15 @@
 package me.phantom.vanish.utils;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.Bukkit;
 
 /**
- * Small static helper for sending Adventure action bar messages and playing
- * sounds, keeping repetitive boilerplate out of the manager classes.
+ * Small static helper for sending Adventure action bar messages, broadcasts,
+ * and playing sounds, keeping repetitive boilerplate out of the manager classes.
  */
 public final class MessageUtil {
 
@@ -50,5 +52,35 @@ public final class MessageUtil {
             return;
         }
         player.playSound(player.getLocation(), sound, volume, pitch);
+    }
+
+    /**
+     * Broadcasts a stylized message to all players with the vanish.broadcast permission.
+     */
+    public static void broadcastVanishMessage(String playerName, boolean vanished) {
+        Component separator = Component.text("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━").color(NamedTextColor.DARK_GRAY);
+        Component message;
+
+        if (vanished) {
+            message = Component.text()
+                    .append(Component.text("👤 ").color(NamedTextColor.LIGHT_PURPLE))
+                    .append(Component.text(playerName).color(NamedTextColor.AQUA).bold(true))
+                    .append(Component.text(" láthatatlanba lépett").color(NamedTextColor.LIGHT_PURPLE))
+                    .build();
+        } else {
+            message = Component.text()
+                    .append(Component.text("👤 ").color(NamedTextColor.LIGHT_PURPLE))
+                    .append(Component.text(playerName).color(NamedTextColor.AQUA).bold(true))
+                    .append(Component.text(" visszatért a látható világba").color(NamedTextColor.LIGHT_PURPLE))
+                    .build();
+        }
+
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (player.hasPermission("phantomvanish.broadcast")) {
+                player.sendMessage(separator);
+                player.sendMessage(message);
+                player.sendMessage(separator);
+            }
+        }
     }
 }

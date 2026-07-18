@@ -20,3 +20,6 @@ permissions:
   phantomvanish.vanish.item:
     description: 'Allows toggling item pickup blocking (/v item) on/off.'
     default: op
+  phantomvanish.broadcast:
+    description: 'Allows receiving vanish broadcast notifications.'
+    default: op

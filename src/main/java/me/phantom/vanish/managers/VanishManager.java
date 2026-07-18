@@ -70,6 +70,11 @@ public class VanishManager {
         MessageUtil.playSound(player, plugin.getConfigManager().getSoundVanishEnable(),
                 plugin.getConfigManager().getSoundVolume(), plugin.getConfigManager().getSoundPitch());
 
+        // Broadcast to staff
+        if (player.hasPermission("phantomvanish.broadcast")) {
+            MessageUtil.broadcastVanishMessage(player.getName(), true);
+        }
+
         startActionBarTask(player);
     }
 
@@ -94,6 +99,11 @@ public class VanishManager {
         MessageUtil.sendActionBar(player, plugin.getConfigManager().getMessageVanishDisabled());
         MessageUtil.playSound(player, plugin.getConfigManager().getSoundVanishDisable(),
                 plugin.getConfigManager().getSoundVolume(), plugin.getConfigManager().getSoundPitch());
+
+        // Broadcast to staff
+        if (player.hasPermission("phantomvanish.broadcast")) {
+            MessageUtil.broadcastVanishMessage(player.getName(), false);
+        }
     }
 
     /**
